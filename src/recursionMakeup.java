@@ -55,19 +55,22 @@ public class recursionMakeup {
 	    System.out.println(array[l2][w2] + "\n");
 	    
 	    
-	    stack = longestPathEasy(l2, w2, array, array[l2][w2], stack);
 	    
-	    int s = stack.size()/2;
 	    
-	    String str = "";
-	    for(int i = 0; i < s; i++) {
-	    	str = "[" + stack.pop() + ", " + stack.pop() + "]  " + str;
-	    }
-	    System.out.println("[" + l2 + ", " + w2 + "]  " + str);
+//	    stack = longestPathEasy(l2, w2, array, array[l2][w2], stack);
+//	    
+//	    int s = stack.size()/2;
+//	    
+//	    String str = "";
+//	    for(int i = 0; i < s; i++) {
+//	    	str = "[" + stack.pop() + ", " + stack.pop() + "]  " + str;
+//	    }
+//	    System.out.println("[" + l2 + ", " + w2 + "]  " + str);
 	    
 	    //System.out.println(longestPathEasy(l2, w2, array, array[l2][w2], stack));
+
 	    
-	    //System.out.println(longestPath(l2, w2, array, array[l2][w2], 0, 0));
+	    longestPath(l2, w2, array, array[l2][w2], stack, 0);
 	    
 	}
 
@@ -117,13 +120,92 @@ public class recursionMakeup {
 	
 	
 
-	private static Stack<Integer> longestPath(int l, int w, int[][] array, int num, Stack<Integer> stack) {
+	private static Stack<Integer> longestPath(int l, int w, int[][] array, int num, Stack<Integer> stack, int c) {
+		int[] direction = { 0, 0, 0, 0, 0, 0, 0, 0};
+		int tempC = c;
+		
+		//top left
+		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num){
+			tempC++;
+			direction[0] = longestPath( l-1, w-1, array, num, stack, tempC).size();
+		}
+		//top mid
+		if(l-1 >= 0 && array[l-1][w] == num){
+			tempC++;
+			direction[1] = longestPath( l-1, w, array, num, stack, tempC).size();	
+		}
+		//top right
+		if(l-1 >= 0 && w+1 < array[0].length && array[l-1][w+1] == num){
+			tempC++;
+			direction[2] = longestPath( l-1, w+1, array, num, stack, tempC).size();		
+		}		
+		//mid left
+		if(w-1 >= 0 && array[l][w-1] == num){
+			tempC++;
+			direction[3] = longestPath( l, w-1, array, num, stack, tempC).size();		
+		}
+		//mid right
+		if(w+1 < array[0].length && array[l][w+1] == num){
+			tempC++;
+			direction[4] = longestPath( l, w+1, array, num, stack, tempC).size();	
+		}
+		//bot left
+		if(l+1 < array.length && w-1 >= 0 && array[l+1][w-1] == num){
+			tempC++;
+			direction[5] = longestPath( l+1, w-1, array, num, stack, tempC).size();		
+		}
+		//bot mid
+		if(l+1 < array.length && array[l+1][w] == num){
+			tempC++;
+			direction[6] = longestPath( l+1, w, array, num, stack, tempC).size();		
+		}
+		//bot right
+		if(l+1 < array.length && w+1 < array[0].length && array[l+1][w+1] == num){
+			tempC++;
+			direction[7] = longestPath( l+1, w+1, array, num, stack, tempC).size();		
+		}
+		int max = 0;
+		int index = -1;
+		for(int i = 0; i < 8; i++) {
+			if(direction[i] > max) {
+				max = direction[i];
+				index = i;
+			}
+		}
+		
+		switch (index) {
+		case 0:  tempC++;
+				 return longestPath( l-1, w-1, array, num, stack, tempC);
+				 
+		case 1:  tempC++;
+		 		 return longestPath( l-1, w, array, num, stack, tempC);
+                 
+        case 2:  tempC++;
+				 return longestPath( l-1, w+1, array, num, stack, tempC);
+                 
+        case 3:  tempC++;
+				 return longestPath( l, w-1, array, num, stack, tempC);
+                 
+        case 4:  tempC++;
+				 return longestPath( l, w+1, array, num, stack, tempC);
+                 
+        case 5:  tempC++;
+				 return longestPath( l+1, w-1, array, num, stack, tempC);
+                 
+        case 6:  tempC++;
+				 return longestPath( l+1, w, array, num, stack, tempC);
+                 
+        case 7:  tempC++;
+				 return longestPath( l+1, w+1, array, num, stack, tempC);
+                 
+        default:  return stack;
+                 
+        
 		
 		
-		return null;
+		}	
+
 	}
-
-
 	
 
 }
