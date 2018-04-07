@@ -174,29 +174,29 @@ public class recursionMakeup {
 		}
 		
 		switch (index) {
-		case 0:  tempC++;
-				 return longestPath( l-1, w-1, array, num, stack, tempC);
+		case 0:  c++;
+				 return longestPath( l-1, w-1, array, num, stack, c);
 				 
-		case 1:  tempC++;
-		 		 return longestPath( l-1, w, array, num, stack, tempC);
+		case 1:  c++;
+		 		 return longestPath( l-1, w, array, num, stack, c);
                  
-        case 2:  tempC++;
-				 return longestPath( l-1, w+1, array, num, stack, tempC);
+        case 2:  c++;
+				 return longestPath( l-1, w+1, array, num, stack, c);
                  
-        case 3:  tempC++;
-				 return longestPath( l, w-1, array, num, stack, tempC);
+        case 3:  c++;
+				 return longestPath( l, w-1, array, num, stack, c);
                  
-        case 4:  tempC++;
-				 return longestPath( l, w+1, array, num, stack, tempC);
+        case 4:  c++;
+				 return longestPath( l, w+1, array, num, stack, c);
                  
-        case 5:  tempC++;
-				 return longestPath( l+1, w-1, array, num, stack, tempC);
+        case 5:  c++;
+				 return longestPath( l+1, w-1, array, num, stack, c);
                  
-        case 6:  tempC++;
-				 return longestPath( l+1, w, array, num, stack, tempC);
+        case 6:  c++;
+				 return longestPath( l+1, w, array, num, stack, c);
                  
-        case 7:  tempC++;
-				 return longestPath( l+1, w+1, array, num, stack, tempC);
+        case 7:  c++;
+				 return longestPath( l+1, w+1, array, num, stack, c);
                  
         default:  return stack;
                  
