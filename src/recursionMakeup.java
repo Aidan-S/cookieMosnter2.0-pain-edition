@@ -125,45 +125,46 @@ public class recursionMakeup {
 		int tempC = c;
 		
 		//top left
-		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num){
+		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num && visited(stack, l-1, w-1)){
 			tempC++;
 			direction[0] = longestPath( l-1, w-1, array, num, stack, tempC).size();
 		}
 		//top mid
-		if(l-1 >= 0 && array[l-1][w] == num){
+		if(l-1 >= 0 && array[l-1][w] == num && visited(stack, l-1, w)){
 			tempC++;
 			direction[1] = longestPath( l-1, w, array, num, stack, tempC).size();	
 		}
 		//top right
-		if(l-1 >= 0 && w+1 < array[0].length && array[l-1][w+1] == num){
+		if(l-1 >= 0 && w+1 < array[0].length && array[l-1][w+1] == num && visited(stack, l-1, w+1)){
 			tempC++;
 			direction[2] = longestPath( l-1, w+1, array, num, stack, tempC).size();		
 		}		
 		//mid left
-		if(w-1 >= 0 && array[l][w-1] == num){
+		if(w-1 >= 0 && array[l][w-1] == num && visited(stack, l, w-1)){
 			tempC++;
 			direction[3] = longestPath( l, w-1, array, num, stack, tempC).size();		
 		}
 		//mid right
-		if(w+1 < array[0].length && array[l][w+1] == num){
+		if(w+1 < array[0].length && array[l][w+1] == num && visited(stack, l, w+1)){
 			tempC++;
 			direction[4] = longestPath( l, w+1, array, num, stack, tempC).size();	
 		}
 		//bot left
-		if(l+1 < array.length && w-1 >= 0 && array[l+1][w-1] == num){
+		if(l+1 < array.length && w-1 >= 0 && array[l+1][w-1] == num && visited(stack, l+1, w-1)){
 			tempC++;
 			direction[5] = longestPath( l+1, w-1, array, num, stack, tempC).size();		
 		}
 		//bot mid
-		if(l+1 < array.length && array[l+1][w] == num){
+		if(l+1 < array.length && array[l+1][w] == num && visited(stack, l+1, w)){
 			tempC++;
 			direction[6] = longestPath( l+1, w, array, num, stack, tempC).size();		
 		}
 		//bot right
-		if(l+1 < array.length && w+1 < array[0].length && array[l+1][w+1] == num){
+		if(l+1 < array.length && w+1 < array[0].length && array[l+1][w+1] == num && visited(stack, l+1, w+1)){
 			tempC++;
 			direction[7] = longestPath( l+1, w+1, array, num, stack, tempC).size();		
 		}
+		
 		int max = 0;
 		int index = -1;
 		for(int i = 0; i < 8; i++) {
@@ -175,27 +176,43 @@ public class recursionMakeup {
 		
 		switch (index) {
 		case 0:  c++;
+				 stack.push(w-1);
+				 stack.push(l-1);
 				 return longestPath( l-1, w-1, array, num, stack, c);
 				 
 		case 1:  c++;
+				 stack.push(w);
+				 stack.push(l-1);
 		 		 return longestPath( l-1, w, array, num, stack, c);
                  
         case 2:  c++;
+        		 stack.push(w+1);
+		 		 stack.push(l-1);
 				 return longestPath( l-1, w+1, array, num, stack, c);
                  
         case 3:  c++;
+        		 stack.push(w-1);
+		 		 stack.push(l);
 				 return longestPath( l, w-1, array, num, stack, c);
                  
         case 4:  c++;
+        		 stack.push(w+1);
+        		 stack.push(l);
 				 return longestPath( l, w+1, array, num, stack, c);
                  
         case 5:  c++;
+        		 stack.push(w-1);
+        		 stack.push(l+1);
 				 return longestPath( l+1, w-1, array, num, stack, c);
                  
         case 6:  c++;
+        		 stack.push(w);
+		 		 stack.push(l+1);
 				 return longestPath( l+1, w, array, num, stack, c);
                  
         case 7:  c++;
+        		 stack.push(w+1);
+        		 stack.push(l+1);
 				 return longestPath( l+1, w+1, array, num, stack, c);
                  
         default:  return stack;
@@ -206,6 +223,24 @@ public class recursionMakeup {
 		}	
 
 	}
+	
+	
+	private static boolean visited(Stack<Integer> stack, int l, int w) {
+		int s = stack.size()/2;
+	    int l2;
+	    int w2;
+		
+	    for(int i = 0; i < s; i++) {
+	    	l2 = stack.pop();
+	    	w2 = stack.pop();
+	    	if(l == l2 && w == w2) {
+	    		return true;
+	    	}
+	    }
+			
+		return false;
+	}
+	
 	
 
 }
