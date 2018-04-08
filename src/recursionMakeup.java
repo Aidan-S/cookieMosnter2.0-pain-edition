@@ -145,7 +145,8 @@ public class recursionMakeup {
 		int[] direction = { 0, 0, 0, 0, 0, 0, 0, 0};
 		int tempC = c;
 		
-		Stack<Integer> newStack = stack;
+		Stack<Integer> newStack = (Stack<Integer>) stack.clone();
+		
 		
 		//top left
 		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num && !visited(newStack, l-1, w-1)){
