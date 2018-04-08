@@ -61,10 +61,10 @@ public class recursionMakeup {
 	    
 	    
 	    
-	    int[][] array = {{1,0,0,0},
-	    				 {1,0,1,0},
-	    				 {0,1,0,1},
-	    				 {0,0,0,0}};
+	    int[][] array = {{0,0,1,0},
+	    				 {0,0,1,0},
+	    				 {1,1,0,0},
+	    				 {0,0,1,0}};
 	    
 	    //int l2 = (int)(Math.random() * l);
 	    //int w2 = (int)(Math.random() * w);
@@ -82,7 +82,7 @@ public class recursionMakeup {
 	    int w2 = kb.nextInt();
 	    
 	    System.out.println(array[l2][w2] + "\n");
-	    
+	    display(array);
 	
 	    
 	    
@@ -262,6 +262,7 @@ public class recursionMakeup {
 			}
 		}
 		
+		//after determining the longest path, commit that path and return it
 		switch (index) {
 		case 0:  c++;
 				 stack.push(w-1);
