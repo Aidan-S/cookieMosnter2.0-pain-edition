@@ -3,12 +3,24 @@ import java.util.Stack;
 
 public class recursionMakeup {
 
-	
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: return a random int 3-6
+	 * @return: the random number
+	 */
 	private static int rand() {
 		return 3 + (int)(Math.random() * ((6 - 3) + 1));
 	}
 	
 	
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: print out a 2D array to the console 
+	 * @param array: array to be printed 
+	 * @return: none
+	 */
 	private static void display(int[][] array) {
 		String line = "";
 		for(int r = 0; r < array.length; r++) {
@@ -20,7 +32,13 @@ public class recursionMakeup {
 		System.out.println(line);
 	}
 	
-	
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: main method to test the longest path methods
+	 * @param args: string array of arguments 
+	 * @return: none
+	 */
 	public static void main(String[] args) {
 	    Scanner kb = new Scanner(System.in);
 //	    System.out.print("Length: ");
@@ -94,7 +112,17 @@ public class recursionMakeup {
 	    
 	}
 
-	
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: determine the longest path by moving to the left or down
+	 * @param l: which row the point is in the array  
+	 * @param w: which column the point is in the array
+	 * @param array: the array being evaluated
+	 * @param num: what number the path needs to be
+	 * @param stack: stack containing the points visited
+	 * @return: stack that contains all the points visited
+	 */
 	private static Stack<Integer> longestPathEasy(int l, int w, int[][] array, int num, Stack<Integer> stack) {
 		boolean r = ( w+1 < array[0].length && array[l][w+1] == num );
 		boolean d = ( l+1 < array.length && array[l+1][w] == num );
@@ -141,7 +169,18 @@ public class recursionMakeup {
 	
 	
 	
-
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: determine the longest path by moving to the left or down
+	 * @param l: which row the point is in the array  
+	 * @param w: which column the point is in the array
+	 * @param array: the array being evaluated
+	 * @param num: what number the path needs to be
+	 * @param stack: stack containing the points visited
+	 * @param c: int to count how long the other paths are
+	 * @return: stack that contains all the points visited
+	 */
 	private static Stack<Integer> longestPath(int l, int w, int[][] array, int num, Stack<Integer> stack, int c) {
 		int[] direction = { 0, 0, 0, 0, 0, 0, 0, 0};
 		int tempC = c;
@@ -273,7 +312,15 @@ public class recursionMakeup {
 
 	}
 	
-	
+	/**
+	 * @author Aidan-S
+	 * date: March 9th, 2018
+	 * method: check if the point is in the stack of visited points
+	 * @param stack: stack of points to compare to the given row and column coordinates
+	 * @param l: the row coordinate 
+	 * @param w: the column coordinate
+	 * @return: none
+	 */
 	private static boolean visited(Stack<Integer> stack, int l, int w) {
 		int s = stack.size()/2;
 	    int l2;
