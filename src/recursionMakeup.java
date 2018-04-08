@@ -65,8 +65,7 @@ public class recursionMakeup {
 	    
 	    System.out.println(array[l2][w2] + "\n");
 	    
-	    stack.push(0);
-	    stack.push(0);
+	
 	    
 	    
 //	    stack = longestPathEasy(l2, w2, array, array[l2][w2], stack);
@@ -117,16 +116,18 @@ public class recursionMakeup {
 			}else{
 				//both
 				if(d && r) {
-					if(longestPathEasy(l+1, w, array, num, newStack).size() > longestPathEasy(l, w+1, array, num, newStack).size()) {
+					Stack<Integer> pathDown =longestPathEasy(l+1, w, array, num, newStack);
+					Stack<Integer> pathRight = longestPathEasy(l, w+1, array, num, newStack);
+					if(pathDown.size() > pathRight.size()) {
 						newStack = stack;
 						newStack.push(w);
 						newStack.push(l+1);
-						return longestPathEasy(l+1, w, array, num, newStack);
+						return pathDown;
 					}else{
 						newStack = stack;
 						newStack.push(w+1);
 						newStack.push(l);
-						return longestPathEasy(l, w+1, array, num, newStack);
+						return pathRight;
 					}
 				}else{
 					//neither
@@ -151,6 +152,7 @@ public class recursionMakeup {
 		//top left
 		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num && !visited(newStack, l-1, w-1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w-1);
 			newStack.push(l-1);
 			direction[0] = longestPath( l-1, w-1, array, num, newStack, tempC).size();
@@ -158,6 +160,7 @@ public class recursionMakeup {
 		//top mid
 		if(l-1 >= 0 && array[l-1][w] == num && !visited(newStack, l-1, w)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w);
 			newStack.push(l-1);
 			direction[1] = longestPath( l-1, w, array, num, newStack, tempC).size();	
@@ -165,6 +168,7 @@ public class recursionMakeup {
 		//top right
 		if(l-1 >= 0 && w+1 < array[0].length && array[l-1][w+1] == num && !visited(newStack, l-1, w+1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w+1);
 			newStack.push(l-1);
 			direction[2] = longestPath( l-1, w+1, array, num, newStack, tempC).size();		
@@ -172,6 +176,7 @@ public class recursionMakeup {
 		//mid left
 		if(w-1 >= 0 && array[l][w-1] == num && !visited(newStack, l, w-1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w-1);
 			newStack.push(l);
 			direction[3] = longestPath( l, w-1, array, num, newStack, tempC).size();		
@@ -179,6 +184,7 @@ public class recursionMakeup {
 		//mid right
 		if(w+1 < array[0].length && array[l][w+1] == num && !visited(newStack, l, w+1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w+1);
 			newStack.push(l);
 			direction[4] = longestPath( l, w+1, array, num, newStack, tempC).size();	
@@ -186,6 +192,7 @@ public class recursionMakeup {
 		//bot left
 		if(l+1 < array.length && w-1 >= 0 && array[l+1][w-1] == num && !visited(newStack, l+1, w-1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w-1);
 			newStack.push(l+1);
 			direction[5] = longestPath( l+1, w-1, array, num, newStack, tempC).size();		
@@ -193,6 +200,7 @@ public class recursionMakeup {
 		//bot mid
 		if(l+1 < array.length && array[l+1][w] == num && !visited(newStack, l+1, w)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w);
 			newStack.push(l+1);
 			direction[6] = longestPath( l+1, w, array, num, newStack, tempC).size();		
@@ -200,6 +208,7 @@ public class recursionMakeup {
 		//bot right
 		if(l+1 < array.length && w+1 < array[0].length && array[l+1][w+1] == num && !visited(newStack, l+1, w+1)){
 			tempC++;
+			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w+1);
 			newStack.push(l+1);
 			direction[7] = longestPath( l+1, w+1, array, num, newStack, tempC).size();		
@@ -221,7 +230,7 @@ public class recursionMakeup {
 				 return longestPath( l-1, w-1, array, num, stack, c);
 				 
 		case 1:  c++;
-				 stack.push(w);
+				stack.push(w);
 				 stack.push(l-1);
 		 		 return longestPath( l-1, w, array, num, stack, c);
                  
