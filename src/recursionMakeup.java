@@ -3,6 +3,17 @@ import java.util.Stack;
 
 public class recursionMakeup {
 
+	//O(n) -my attempt:
+	/*The best case would be O(1) for both the path methods, if there is no path from that point
+	 * 
+	 * The Worst case would be an array of one number, that would mean each iteration would go over every path that could possibly be taken from that point, skipping repeats
+	 * That would be O(n^n)
+	 * 
+	 * The average case would be somewhere inbetween those scenarios, where the path has a split every 3 or 4 steps
+	 * If n is the length of the path I believe that would be about O(n!)
+	 */
+	
+	
 	/**
 	 * @author Aidan-S
 	 * date: March 9th, 2018
@@ -36,7 +47,6 @@ public class recursionMakeup {
 	 * date: March 9th, 2018
 	 * method: main method to test the longest path methods
 	 * @param args: string array of arguments 
-	 * @return: none
 	 */
 	public static void main(String[] args) {
 	    Scanner kb = new Scanner(System.in);
