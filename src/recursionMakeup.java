@@ -10,9 +10,8 @@ public class recursionMakeup {
 	 * @return: the random number
 	 */
 	private static int rand() {
-		return 3 + (int)(Math.random() * ((6 - 3) + 1));
+		return 3 + (int)(Math.random() * 4);
 	}
-	
 	
 	/**
 	 * @author Aidan-S
@@ -41,77 +40,55 @@ public class recursionMakeup {
 	 */
 	public static void main(String[] args) {
 	    Scanner kb = new Scanner(System.in);
-//	    System.out.print("Length: ");
-//	    int l = kb.nextInt();
-//	    System.out.print("Width: ");
-//	    int w = kb.nextInt();
-//	    
-//	    
-//	    int[][] array = new int[l][w];
-//	    
-//	    for(int r = 0; r < l; r++) {
-//	    	for(int c = 0; c < w; c++) {
-//	    		array[r][c] = rand();	
-//		    }	
-//	    }
-//	    
-//	    display(array);
+	    //ask for array dimensions
+	    System.out.print("Length: ");
+	    int l = kb.nextInt();
+	    System.out.print("Width: ");
+	    int w = kb.nextInt();
 	    
-	    int[][] array = {{6, 6, 5, 6, 4, 6, 3}, 
-	    				{4, 5, 4, 5, 5, 4, 3}, 
-	    				{6, 3, 4, 5, 3, 3, 6}, 
-	    				{4, 5, 4, 4, 4, 4, 5}, 
-	    				{6, 3, 4, 3, 5, 3, 3}, 
-	    				{6, 6, 3, 4, 5, 6, 4}, 
-	    				{4, 5, 6, 3, 6, 4, 5}}; 
-	    
-	    
-	    //int l2 = (int)(Math.random() * l);
-	    //int w2 = (int)(Math.random() * w);
-	    
-	    Stack<Integer> stack = new Stack<Integer>();
-	    
-	    
-	    //System.out.println(l2);
-	    //System.out.println(w2);
-	    
-	    System.out.print("y: ");
-	    int l2 = kb.nextInt();
-	    System.out.print("x: ");
-	    int w2 = kb.nextInt();
-	    
-	    System.out.println(array[l2][w2] + "\n");
+	    //make and fill up the array
+	    int[][] array = new int[l][w];
+	    for(int r = 0; r < l; r++) {
+	    	for(int c = 0; c < w; c++) {
+	    		array[r][c] = rand();	
+		    }	
+	    }
 	    display(array);
 	    
-	    stack.push(w2);
-	    stack.push(l2);
+	    //generate a random point
+	    int l2 = (int)(Math.random() * l);
+	    int w2 = (int)(Math.random() * w);
 	    
+	    //make 2 stacks that will contain the points and enter in the first point
+	    Stack<Integer> stackEasy = new Stack<Integer>();
+	    Stack<Integer> stackHard = new Stack<Integer>();
+	    stackEasy.push(w2);
+	    stackEasy.push(l2); 
+	    stackHard.push(w2);
+	    stackHard.push(l2);
 	    
-	    stack = longestPathEasy(l2, w2, array, array[l2][w2], stack);
-	    
-	    int s = stack.size()/2;
-	    
+	    //tests the longestPathEasy method
+	    stackEasy = longestPathEasy(l2, w2, array, array[l2][w2], stackEasy);
+	    //iterates through the stack, printing out its contents in a more readable format
 	    String str = "";
-	    for(int i = 0; i < s; i++) {
-	    	str = "[" + stack.pop() + ", " + stack.pop() + "]  " + str;
+	    int size = stackEasy.size()/2;
+	    for(int i = 0; i < size; i++) {
+	    	str = "[" + stackEasy.pop() + ", " + stackEasy.pop() + "], " + str;
 	    }
-	    System.out.println(str);
+	    System.out.println("Path going right and down:");
+	    System.out.println(str.substring(0, str.length() - 2) + " - visits " + size +" points");
 	    
-	    //System.out.println(longestPathEasy(l2, w2, array, array[l2][w2], stack));
-
-	    
-//	    stack = longestPath(l2, w2, array, array[l2][w2], stack, 0);
-//	    
-//	    int s = stack.size()/2;
-//	    
-//	    String str = "";
-//	    for(int i = 0; i < s; i++) {
-//	    	str = "[" + stack.pop() + ", " + stack.pop() + "]  " + str;
-//	    }
-//	    
-//	    System.out.println(str);
-	    
-	    
+	   
+	    //tests the longestPath method 
+	    stackHard = longestPath(l2, w2, array, array[l2][w2], stackHard, 0);
+	    //iterates through the stack, printing out its contents in a more readable format
+	    String str2 = "";
+	    int size2 = stackHard.size()/2;
+	    for(int i = 0; i < size2; i++) {
+	    	str2 = "[" + stackHard.pop() + ", " + stackHard.pop() + "], " + str2;
+	    }
+	    System.out.println("Path going in all directions:"); 
+	    System.out.println(str2.substring(0, str2.length() - 2) + " - visits " + size2 +" points");
 	}
 
 	/**
@@ -126,30 +103,32 @@ public class recursionMakeup {
 	 * @return: stack that contains all the points visited
 	 */
 	private static Stack<Integer> longestPathEasy(int l, int w, int[][] array, int num, Stack<Integer> stack) {
+		//boolean variables to represent whether the path can go right or if it can go down
 		boolean r = ( w+1 < array[0].length && array[l][w+1] == num );
 		boolean d = ( l+1 < array.length && array[l+1][w] == num );
 		
-		Stack<Integer> newStack = new Stack<Integer>(); 
+		Stack<Integer> newStack = (Stack<Integer>) stack.clone(); 
 		
-		//down
+		//check if the path can only go down
 		if(d && !r) {
 			newStack = (Stack<Integer>) stack.clone();
 			newStack.push(w);
 			newStack.push(l+1);
 			return longestPathEasy(l+1, w, array, num, newStack);
 		}else{
-			//right
+			//check if the path can only go right
 			if(r && !d) {
 				newStack = (Stack<Integer>) stack.clone();
 				newStack.push(w+1);
 				newStack.push(l);
 				return longestPathEasy(l, w+1, array, num, newStack);
 			}else{
-				//both
+				//check if the path can only go both directions
 				if(d && r) {
 					Stack<Integer> pathDown = longestPathEasy(l+1, w, array, num, newStack);
 					Stack<Integer> pathRight = longestPathEasy(l, w+1, array, num, newStack);
 					
+					//I have to call the longestPathEasy method again, instead of just returning pathDown or pathRight; those were called without adding the new points
 					if(pathDown.size() > pathRight.size()) {
 						newStack = (Stack<Integer>) stack.clone();
 						newStack.push(w);
@@ -162,15 +141,12 @@ public class recursionMakeup {
 						return longestPathEasy(l, w+1, array, num, newStack);
 					}
 				}else{
-					//neither
+					//return the original stack if it can't go any farther
 					return stack;
 				}		
 			}
 		}	
 	}
-	
-	
-	
 	
 	
 	/**
@@ -186,13 +162,17 @@ public class recursionMakeup {
 	 * @return: stack that contains all the points visited
 	 */
 	private static Stack<Integer> longestPath(int l, int w, int[][] array, int num, Stack<Integer> stack, int c) {
+		//array of 
 		int[] direction = { 0, 0, 0, 0, 0, 0, 0, 0};
+		
+		//counter for the length of the path without changing c
 		int tempC = c;
 		
+		//copy stack in order to prevent changing stack
 		Stack<Integer> newStack = (Stack<Integer>) stack.clone();
 		
 		
-		//top left
+		//check the top left, add the length of the path in that direction to the array
 		if(l-1 >= 0 && w-1 >= 0 && array[l-1][w-1] == num && !visited(newStack, l-1, w-1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -201,7 +181,8 @@ public class recursionMakeup {
 			direction[0] = longestPath( l-1, w-1, array, num, newStack, tempC).size();
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//top mid
+		
+		//check the top mid, add the length of the path in that direction to the array
 		if(l-1 >= 0 && array[l-1][w] == num && !visited(newStack, l-1, w)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -210,7 +191,8 @@ public class recursionMakeup {
 			direction[1] = longestPath( l-1, w, array, num, newStack, tempC).size();	
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//top right
+		
+		//check the top right, add the length of the path in that direction to the array
 		if(l-1 >= 0 && w+1 < array[0].length && array[l-1][w+1] == num && !visited(newStack, l-1, w+1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -219,7 +201,8 @@ public class recursionMakeup {
 			direction[2] = longestPath( l-1, w+1, array, num, newStack, tempC).size();		
 		}	
 		newStack = (Stack<Integer>) stack.clone();
-		//mid left
+		
+		//check the mid left, add the length of the path in that direction to the arraymid left
 		if(w-1 >= 0 && array[l][w-1] == num && !visited(newStack, l, w-1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -228,7 +211,8 @@ public class recursionMakeup {
 			direction[3] = longestPath( l, w-1, array, num, newStack, tempC).size();		
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//mid right
+		
+		//check the mid right, add the length of the path in that direction to the array
 		if(w+1 < array[0].length && array[l][w+1] == num && !visited(newStack, l, w+1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -237,7 +221,8 @@ public class recursionMakeup {
 			direction[4] = longestPath( l, w+1, array, num, newStack, tempC).size();	
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//bot left
+		
+		//check the bot left, add the length of the path in that direction to the array
 		if(l+1 < array.length && w-1 >= 0 && array[l+1][w-1] == num && !visited(newStack, l+1, w-1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -246,7 +231,8 @@ public class recursionMakeup {
 			direction[5] = longestPath( l+1, w-1, array, num, newStack, tempC).size();		
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//bot mid
+		
+		//check the bot mid, add the length of the path in that direction to the array
 		if(l+1 < array.length && array[l+1][w] == num && !visited(newStack, l+1, w)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -255,7 +241,8 @@ public class recursionMakeup {
 			direction[6] = longestPath( l+1, w, array, num, newStack, tempC).size();		
 		}
 		newStack = (Stack<Integer>) stack.clone();
-		//bot right
+		
+		//check the bot right, add the length of the path in that direction to the array
 		if(l+1 < array.length && w+1 < array[0].length && array[l+1][w+1] == num && !visited(newStack, l+1, w+1)){
 			tempC++;
 			newStack = (Stack<Integer>) stack.clone();
@@ -265,6 +252,7 @@ public class recursionMakeup {
 		}
 		newStack = (Stack<Integer>) stack.clone();
 		
+		//determine which possible path is the longest
 		int max = 0;
 		int index = -1;
 		for(int i = 0; i < 8; i++) {
@@ -274,7 +262,7 @@ public class recursionMakeup {
 			}
 		}
 		
-		//after determining the longest path, commit that path and return it
+		//after determining the longest path, commit that path and then pursue it
 		switch (index) {
 		case 0:  c++;
 				 stack.push(w-1);
@@ -317,12 +305,7 @@ public class recursionMakeup {
 				 return longestPath( l+1, w+1, array, num, stack, c);
                  
         default:  return stack;
-                 
-        
-		
-		
 		}	
-
 	}
 	
 	/**
@@ -339,6 +322,7 @@ public class recursionMakeup {
 	    int l2;
 	    int w2;
 		
+	    //pop off 2 at a time and compare them to the given l and w
 	    for(int i = 0; i < s; i++) {
 	    	l2 = stack.pop();
 	    	w2 = stack.pop();
@@ -346,10 +330,6 @@ public class recursionMakeup {
 	    		return true;
 	    	}
 	    }
-			
 		return false;
 	}
-	
-	
-
 }
